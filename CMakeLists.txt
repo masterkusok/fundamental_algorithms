@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 message([[VCPKG toolchain setup example. It is needed for some libraries. Highly recommended to pass it by command line arguments for cmake configuration (IDE can help with this).
         set(VCPKG_TARGET_TRIPLET x64-windows)
-        set(CMAKE_TOOLCHAIN_FILE C:/Programming/vcpkg/scripts/buildsystems/vcpkg.cmake)]])
+        set(CMAKE_TOOLCHAIN_FILE /Users/setrakovfs/vcpkg/scripts/buildsystems/vcpkg.cmake)]])
 
 include(FetchContent)
 FetchContent_Declare(
@@ -22,7 +22,10 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(nlohmann_json)
 
+set(Crow_DIR "/Users/setrakovfs/code/Crow/")
+
 find_package(Boost COMPONENTS system container REQUIRED) # Ставить через vcpkg
+find_package(Crow REQUIRED)
 
 add_subdirectory(allocator)
 add_subdirectory(arithmetic)

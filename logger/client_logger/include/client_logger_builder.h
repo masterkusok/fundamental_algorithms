@@ -1,7 +1,7 @@
 #ifndef MATH_PRACTICE_AND_OPERATING_SYSTEMS_CLIENT_LOGGER_BUILDER_H
 #define MATH_PRACTICE_AND_OPERATING_SYSTEMS_CLIENT_LOGGER_BUILDER_H
 
-#include <logger_builder.h>
+#include "../../logger/include/logger_builder.h"
 #include <unordered_map>
 #include <forward_list>
 #include <nlohmann/json.hpp>
@@ -15,6 +15,7 @@ private:
     std::unordered_map<logger::severity ,std::pair<std::forward_list<client_logger::refcounted_stream>, bool>> _output_streams;
 
     std::string _format;
+    std::string _default_destination;
 
     void parse_severity(logger::severity, nlohmann::json& j);
 

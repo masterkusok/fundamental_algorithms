@@ -59,6 +59,8 @@ private:
 
     std::string make_format(const std::string& message, severity sev) const;
 
+    void clear_streams();
+
     static flag char_to_flag(char c) noexcept;
 
     friend client_logger_builder;

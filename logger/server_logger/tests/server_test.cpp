@@ -5,5 +5,5 @@
 
 int main(int argc, char* argv[])
 {
-    server s;
+    server s(9200);
 }

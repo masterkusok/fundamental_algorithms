@@ -74,10 +74,12 @@ private:
      */
     multiplication_rule decide_mult(size_t rhs) const noexcept;
     division_rule decide_div(size_t rhs) const noexcept;
+    void normalize();
 
 public:
 
     using value_type = unsigned int;
+    big_int abs() const;
 
     template<class alloc>
     explicit big_int(const std::vector<unsigned int, alloc> &digits, bool sign = true, pp_allocator<unsigned int> allocator = pp_allocator<unsigned int>());
@@ -133,7 +135,6 @@ public:
     big_int operator*(const big_int& other) const;
     big_int operator/(const big_int& other) const;
     big_int operator%(const big_int& other) const;
-
     std::strong_ordering operator<=>(const big_int& other) const noexcept;
 
     bool operator==(const big_int& other) const noexcept;
@@ -164,20 +165,56 @@ public:
     friend std::istream &operator>>(std::istream &stream, big_int &value);
 
     std::string to_string() const;
+    big_int karatsuba_multiply(const big_int& other) const;
 };
 
-template<class alloc>
-big_int::big_int(const std::vector<unsigned int, alloc> &digits, bool sign, pp_allocator<unsigned int> allocator)
-{
-    throw not_implemented("template<class alloc> big_int::big_int(const std::vector<unsigned int, alloc> &digits, bool sign, pp_allocator<unsigned int> allocator)", "your code should be here...");
+
+template <class Alloc>
+big_int::big_int(const std::vector<unsigned int, Alloc> &digits, bool sign, pp_allocator<unsigned int> allocator)
+    : _sign(sign), _digits(allocator) {
+	_digits.reserve(digits.size());
+	for (auto digit : digits) {
+		_digits.push_back(digit);
+	}
+
+	while (!_digits.empty() && _digits.back() == 0) {
+		_digits.pop_back();
+	}
+
+	if (_digits.empty()) {
+		_digits.push_back(0);
+		_sign = true;
+	}
 }
 
-template<std::integral Num>
-big_int::big_int(Num d, pp_allocator<unsigned int>)
-{
-    throw not_implemented("template<std::integral Num>big_int::big_int(Num, pp_allocator<unsigned int>)", "your code should be here...");
-}
+template <std::integral Num>
+big_int::big_int(Num d, pp_allocator<unsigned int> allocator)
+    : _sign(d >= 0 || std::is_unsigned_v<Num>), _digits(allocator) {
+	using Unsigned = std::make_unsigned_t<Num>;
+	Unsigned abs_val;
 
+	if constexpr (std::is_signed_v<Num>) {
+		abs_val = static_cast<Unsigned>(std::abs(static_cast<std::make_signed_t<Num>>(d)));
+	} else {
+		abs_val = d;
+	}
+
+	constexpr size_t BITS_PER_DIGIT = sizeof(unsigned int) * 8;
+
+	do {
+		_digits.push_back(static_cast<unsigned int>(abs_val));
+		if constexpr (sizeof(Unsigned) > sizeof(unsigned int)) {
+			abs_val >>= BITS_PER_DIGIT;
+		} else {
+			abs_val = 0;
+		}
+	} while (abs_val != 0);
+
+	if (_digits.empty()) {
+		_digits.push_back(0);
+		_sign = true;
+	}
+}
 big_int operator""_bi(unsigned long long n);
 
 #endif //MP_OS_BIG_INT_H

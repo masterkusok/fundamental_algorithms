@@ -1,0 +1,14 @@
+{
+    "logger": {
+        "format": "[message %m %d %t %s]",
+        "streams": [
+            {
+                "severity": "info",
+                "has_console": true,
+                "file_streams": [
+                    "c.txt"
+                ]
+            }
+        ]
+    }
+}

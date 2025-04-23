@@ -18,8 +18,7 @@ int main(int argc, char *argv[])
             add_console_stream(logger::severity::trace).
             set_format("[%d %t][%s] %m");
 
-    builder.transform_with_configuration("set.json", "log");
-
+    builder.transform_with_configuration("set.json", "logger");
     std::unique_ptr<logger> log(builder.build());
 
     log->trace("it is a very long message!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!").debug("dd");
@@ -27,6 +26,10 @@ int main(int argc, char *argv[])
     std::unique_ptr<logger> logger2(builder.build());
 
     logger2->trace("From second logger");
-
     return RUN_ALL_TESTS();
 }
+
+// int main(int argc, char *argv[]) {
+//     testing::InitGoogleTest(&argc, argv);
+//     client_logger logger();
+// }

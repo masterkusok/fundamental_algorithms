@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Google Tests (macOS)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/logger/client_logger/tests/mp_os_lggr_clnt_lggr_tests",
+            "args": [
+                "--gtest_filter=*",
+                "--gtest_color=yes"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            //"preLaunchTask": "build-tests",
+            "postDebugTask": "reset-terminal"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-tests",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/build && make mp_os_lggr_clnt_lggr_tests",
+            "group": "build",
+            "problemMatcher": ["$gcc"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        {
+            "label": "reset-terminal",
+            "type": "shell",
+            "command": "osascript -e 'tell application \"Terminal\" to activate'",
+            "problemMatcher": []
+        }
+    ]
+}

@@ -33,12 +33,12 @@ public:
     friend class __detail::bst_impl<tkey, tvalue, compare, tag>;
 
 protected:
-    
+
     struct node
     {
-    
+
     public:
-        
+
         value_type data;
 
         node* parent;
@@ -105,19 +105,19 @@ public:
         using reference = value_type&;
         using pointer = value_type*;
         using iterator_category = std::bidirectional_iterator_tag;
-        
+
         explicit prefix_iterator(node* data = nullptr);
 
         virtual ~prefix_iterator() =default;
 
         bool operator==(
             prefix_iterator const &other) const noexcept;
-        
+
         bool operator!=(
             prefix_iterator const &other) const noexcept;
-        
+
         prefix_iterator &operator++() & noexcept;
-        
+
         prefix_iterator operator++(int not_used) noexcept;
 
         prefix_iterator &operator--() & noexcept;
@@ -134,9 +134,9 @@ public:
 
         pointer operator->() noexcept;
         size_t depth() const noexcept;
-        
+
     };
-    
+
     class prefix_const_iterator
     {
     protected:
@@ -181,9 +181,9 @@ public:
 
         pointer operator->() noexcept;
         size_t depth() const noexcept;
-        
+
     };
-    
+
     class prefix_reverse_iterator
     {
     protected:
@@ -229,9 +229,9 @@ public:
 
         pointer operator->() noexcept;
         size_t depth() const noexcept;
-        
+
     };
-    
+
     class prefix_const_reverse_iterator
     {
     protected:
@@ -277,7 +277,7 @@ public:
 
         pointer operator->() noexcept;
         size_t depth() const noexcept;
-        
+
     };
 
 
@@ -689,11 +689,11 @@ public:
 
 
 protected:
-    
+
     node *_root;
     logger* _logger;
     size_t _size;
-    
+
     /** You should use coercion ctor or template methods of allocator
      */
     pp_allocator<value_type> _allocator;
@@ -711,8 +711,8 @@ public:
 
 
     template<input_iterator_for_pair<tkey, tvalue> iterator>
-    explicit binary_search_tree(iterator begin, iterator end, const compare& cmp = compare(), 
-                                pp_allocator<value_type> alloc = pp_allocator<value_type>(), 
+    explicit binary_search_tree(iterator begin, iterator end, const compare& cmp = compare(),
+                                pp_allocator<value_type> alloc = pp_allocator<value_type>(),
                                 logger* logger = nullptr);
 
     template<std::ranges::input_range Range>
@@ -722,19 +722,19 @@ public:
 
 
     binary_search_tree(std::initializer_list<std::pair<tkey, tvalue>> data, const compare& cmp = compare(),
-                       pp_allocator<value_type> alloc = pp_allocator<value_type>(), 
+                       pp_allocator<value_type> alloc = pp_allocator<value_type>(),
                        logger* logger = nullptr);
 
 public:
-    
+
     binary_search_tree(const binary_search_tree &other);
-    
+
     binary_search_tree(binary_search_tree &&other) noexcept;
-    
+
     binary_search_tree &operator=(const binary_search_tree &other);
-    
+
     binary_search_tree &operator=(binary_search_tree &&other) noexcept;
-    
+
     virtual ~binary_search_tree();
 
 public:
@@ -796,7 +796,7 @@ public:
     size_t erase(const tkey& key);
 
 public:
-    
+
     // region iterators requests definition
 
     infix_iterator begin() noexcept;
@@ -823,81 +823,81 @@ public:
 
     infix_const_reverse_iterator crend() const noexcept;
 
-    
+
     prefix_iterator begin_prefix() noexcept;
-    
+
     prefix_iterator end_prefix() noexcept;
 
     prefix_const_iterator begin_prefix() const noexcept;
 
     prefix_const_iterator end_prefix() const noexcept;
-    
+
     prefix_const_iterator cbegin_prefix() const noexcept;
-    
+
     prefix_const_iterator cend_prefix() const noexcept;
-    
+
     prefix_reverse_iterator rbegin_prefix() noexcept;
-    
+
     prefix_reverse_iterator rend_prefix() noexcept;
 
     prefix_const_reverse_iterator rbegin_prefix() const noexcept;
 
     prefix_const_reverse_iterator rend_prefix() const noexcept;
-    
+
     prefix_const_reverse_iterator crbegin_prefix() const noexcept;
-    
+
     prefix_const_reverse_iterator crend_prefix() const noexcept;
 
-    
+
     infix_iterator begin_infix() noexcept;
-    
+
     infix_iterator end_infix() noexcept;
 
     infix_const_iterator begin_infix() const noexcept;
 
     infix_const_iterator end_infix() const noexcept;
-    
+
     infix_const_iterator cbegin_infix() const noexcept;
-    
+
     infix_const_iterator cend_infix() const noexcept;
-    
+
     infix_reverse_iterator rbegin_infix() noexcept;
-    
+
     infix_reverse_iterator rend_infix() noexcept;
 
     infix_const_reverse_iterator rbegin_infix() const noexcept;
 
     infix_const_reverse_iterator rend_infix() const noexcept;
-    
+
     infix_const_reverse_iterator crbegin_infix() const noexcept;
-    
+
     infix_const_reverse_iterator crend_infix() const noexcept;
 
-    
+
     postfix_iterator begin_postfix() noexcept;
-    
+
     postfix_iterator end_postfix() noexcept;
 
     postfix_const_iterator begin_postfix() const noexcept;
 
     postfix_const_iterator end_postfix() const noexcept;
-    
+
     postfix_const_iterator cbegin_postfix() const noexcept;
-    
+
     postfix_const_iterator cend_postfix() const noexcept;
-    
+
     postfix_reverse_iterator rbegin_postfix() noexcept;
-    
+
     postfix_reverse_iterator rend_postfix() noexcept;
 
     postfix_const_reverse_iterator rbegin_postfix() const noexcept;
 
     postfix_const_reverse_iterator rend_postfix() const noexcept;
-    
+
     postfix_const_reverse_iterator crbegin_postfix() const noexcept;
-    
+
     postfix_const_reverse_iterator crend_postfix() const noexcept;
-    
+
     // endregion iterators requests definition
 
 protected:
@@ -905,7 +905,7 @@ protected:
 
 
     // region subtree rotations definition
-    
+
     static void small_left_rotation(node *&subtree_root) noexcept;
 
     static void small_right_rotation(node *&subtree_root) noexcept;
@@ -917,9 +917,9 @@ protected:
     static void double_left_rotation(node *&subtree_root) noexcept;
 
     static void double_right_rotation(node *&subtree_root) noexcept;
-    
+
     // endregion subtree rotations definition
-    
+
 };
 
 namespace __detail

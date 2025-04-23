@@ -1,0 +1,31 @@
+{
+    "logger_config": {
+        "destination": "http://127.0.0.1:9200",
+        "format": "[%d] [%t] [%s] %m",
+        "streams": {
+            "trace": {
+                "type": "console"
+            },
+            "debug": {
+                "type": "file",
+                "path": "debug.log"
+            },
+            "information": {
+                "type": "file",
+                "path": "info.log"
+            },
+            "warning": {
+                "type": "both",
+                "path": "warnings.log"
+            },
+            "error": {
+                "type": "file",
+                "path": "errors.log"
+            },
+            "critical": {
+                "type": "both",
+                "path": "critical.log"
+            }
+        }
+    }
+}

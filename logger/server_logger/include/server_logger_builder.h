@@ -10,7 +10,7 @@ class server_logger_builder final:
 {
 
     std::string _destination;
-
+    std::string _format;
     std::unordered_map<logger::severity ,std::pair<std::string, bool>> _output_streams;
 
 public:

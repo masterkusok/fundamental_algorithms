@@ -58,6 +58,10 @@ public:
 
 public:
 
+    fraction fraction::abs() const;
+
+    bool fraction::is_zero() const;
+
     fraction sin(fraction const &epsilon = fraction(1_bi, 1000000_bi)) const;
 
     fraction cos(fraction const &epsilon = fraction(1_bi, 1000000_bi)) const;

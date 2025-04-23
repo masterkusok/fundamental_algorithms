@@ -3,12 +3,10 @@
 
 int main()
 {
-
-
     server_logger_builder builder;
 
     builder.add_file_stream("a.txt", logger::severity::trace).add_file_stream("b.txt", logger::severity::debug).
-            add_console_stream(logger::severity::trace).add_file_stream("a.txt", logger::severity::information);
+            add_console_stream(logger::severity::trace).add_file_stream("a.txt", logger::severity::information).set_format("[ KRUTOE OTFORMATIROVANNOE SOOBSHENIYE: [%s: %d %t: %m ] ]").set_destination("127.0.0.1:9200");
 
     std::unique_ptr<logger> log(builder.build());
 
