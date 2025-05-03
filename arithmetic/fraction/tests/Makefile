@@ -161,6 +161,44 @@ depend:
 	cd /Users/setrakovfs/code/fundamental_algorithms && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
+# Convenience name for target.
+arithmetic/fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/rule:
+	cd /Users/setrakovfs/code/fundamental_algorithms && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 arithmetic/fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/rule
+.PHONY : arithmetic/fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/rule
+
+# Convenience name for target.
+mp_os_arthmtc_frctn_tests: arithmetic/fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/rule
+.PHONY : mp_os_arthmtc_frctn_tests
+
+# fast build rule for target.
+mp_os_arthmtc_frctn_tests/fast:
+	cd /Users/setrakovfs/code/fundamental_algorithms && $(MAKE) $(MAKESILENT) -f arithmetic/fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/build.make arithmetic/fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/build
+.PHONY : mp_os_arthmtc_frctn_tests/fast
+
+fraction_tests.o: fraction_tests.cpp.o
+.PHONY : fraction_tests.o
+
+# target to build an object file
+fraction_tests.cpp.o:
+	cd /Users/setrakovfs/code/fundamental_algorithms && $(MAKE) $(MAKESILENT) -f arithmetic/fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/build.make arithmetic/fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/fraction_tests.cpp.o
+.PHONY : fraction_tests.cpp.o
+
+fraction_tests.i: fraction_tests.cpp.i
+.PHONY : fraction_tests.i
+
+# target to preprocess a source file
+fraction_tests.cpp.i:
+	cd /Users/setrakovfs/code/fundamental_algorithms && $(MAKE) $(MAKESILENT) -f arithmetic/fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/build.make arithmetic/fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/fraction_tests.cpp.i
+.PHONY : fraction_tests.cpp.i
+
+fraction_tests.s: fraction_tests.cpp.s
+.PHONY : fraction_tests.s
+
+# target to generate assembly for a file
+fraction_tests.cpp.s:
+	cd /Users/setrakovfs/code/fundamental_algorithms && $(MAKE) $(MAKESILENT) -f arithmetic/fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/build.make arithmetic/fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/fraction_tests.cpp.s
+.PHONY : fraction_tests.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -173,6 +211,10 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... mp_os_arthmtc_frctn_tests"
+	@echo "... fraction_tests.o"
+	@echo "... fraction_tests.i"
+	@echo "... fraction_tests.s"
 .PHONY : help
 
 

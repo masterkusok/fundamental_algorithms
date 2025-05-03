@@ -58,9 +58,9 @@ public:
 
 public:
 
-    fraction fraction::abs() const;
+    fraction abs() const;
 
-    bool fraction::is_zero() const;
+    bool is_zero() const;
 
     fraction sin(fraction const &epsilon = fraction(1_bi, 1000000_bi)) const;
 

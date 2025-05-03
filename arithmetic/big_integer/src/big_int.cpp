@@ -12,7 +12,7 @@
 #include <sstream>
 #include <string>
 
-using wide_t = unsigned long long;
+using ull = unsigned long long;
 
 void big_int::normalize()
 {
@@ -144,14 +144,14 @@ big_int big_int::operator+(const big_int &other) const
 		const size_t n = std::max(result._digits.size(), other._digits.size());
 		result._digits.resize(n, 0);
 
-		const wide_t BASE = wide_t(1) << sizeof(unsigned int) * 8;
-		wide_t carry = 0;
+		const ull BASE = ull(1) << sizeof(unsigned int) * 8;
+		ull carry = 0;
 
 		for (size_t i = 0; i < n; ++i)
 		{
-			wide_t l = static_cast<wide_t>(result._digits[i]);
-			wide_t r = (i < other._digits.size()) ? static_cast<wide_t>(other._digits[i]) : 0;
-			wide_t sum = l + r + carry;
+			ull l = static_cast<ull>(result._digits[i]);
+			ull r = (i < other._digits.size()) ? static_cast<ull>(other._digits[i]) : 0;
+			ull sum = l + r + carry;
 			result._digits[i] = static_cast<unsigned int>(sum % BASE);
 			carry = sum / BASE;
 		}
@@ -177,59 +177,37 @@ big_int big_int::operator+(const big_int &other) const
 
 big_int big_int::operator-(const big_int& other) const {
     big_int result(*this);
+	ull BASE = static_cast<ull>(1) << (sizeof(unsigned int)*8);
 
     if (result._sign != other._sign) {
-        const size_t n = std::max(result._digits.size(), other._digits.size());
-        result._digits.resize(n, 0);
-        using wide_t = uint64_t;
-        const wide_t BASE = static_cast<wide_t>(1) << (sizeof(unsigned int) * 8);
-        wide_t carry = 0;
-
-        for (size_t i = 0; i < n; ++i) {
-            wide_t l = result._digits[i];
-            wide_t r = (i < other._digits.size()) ? other._digits[i] : 0;
-            wide_t sum = l + r + carry;
-            result._digits[i] = static_cast<unsigned int>(sum % BASE);
-            carry = sum / BASE;
-        }
-        if (carry) result._digits.push_back(carry);
+		big_int temp = result.abs() + other.abs();
+		temp._sign = result._sign;
+		return temp;
     }
     else {
         bool this_bigger = (result.abs() >= other.abs());
 
         if (this_bigger) {
-            wide_t borrow = 0;
+            ull borrow = 0;
             const size_t n = result._digits.size();
             for (size_t i = 0; i < n; ++i) {
-                wide_t r = (i < other._digits.size()) ? other._digits[i] : 0;
-                wide_t diff = result._digits[i] - r - borrow;
+                ull r = (i < other._digits.size()) ? other._digits[i] : 0;
+                ull diff = result._digits[i] - r - borrow;
 
-                if (diff >> (sizeof(wide_t)*8 - 1)) {
-                    diff += (static_cast<wide_t>(1) << (sizeof(unsigned int)*8));
-                    borrow = 1;
-                } else {
-                    borrow = 0;
-                }
+				if (result._digits[i] >= r + borrow) {
+					diff = BASE - r - borrow;
+					diff += result._digits[i];
+					borrow = 0;
+				} else {
+					diff = result._digits[i] - r - borrow;
+					borrow = 1;
+				}
                 result._digits[i] = static_cast<unsigned int>(diff);
             }
         } else {
-            big_int tmp(other);
-            wide_t borrow = 0;
-            const size_t n = tmp._digits.size();
-            for (size_t i = 0; i < n; ++i) {
-                wide_t r = (i < result._digits.size()) ? result._digits[i] : 0;
-                wide_t diff = tmp._digits[i] - r - borrow;
-
-                if (diff >> (sizeof(wide_t)*8 - 1)) {
-                    diff += (static_cast<wide_t>(1) << (sizeof(unsigned int)*8));
-                    borrow = 1;
-                } else {
-                    borrow = 0;
-                }
-                tmp._digits[i] = static_cast<unsigned int>(diff);
-            }
-            result = std::move(tmp);
-            result._sign = !result._sign;
+			big_int temp (other - result);
+			temp._sign = temp._sign ? false : true;
+			return temp;
         }
     }
 
@@ -339,6 +317,7 @@ big_int big_int::operator%(const big_int &other) const
 
 	return remainder;
 }
+
 big_int big_int::operator&(const big_int &other) const
 {
 	big_int result;
@@ -435,11 +414,14 @@ big_int &big_int::operator%=(const big_int &other) &
 
 big_int big_int::operator~() const
 {
-	if (_sign <= 0)
-	{
-		throw std::runtime_error("Bitwise NOT on non-positive numbers not supported");
-	}
-	return (big_int(-1) * *this) - big_int(1);
+    big_int result = *this;
+
+    for (auto &digit : result._digits) {
+        digit = ~digit;
+    }
+
+    result._sign = !result._sign;
+    return result;
 }
 
 big_int &big_int::operator&=(const big_int &other) &
@@ -495,10 +477,7 @@ std::string big_int::to_string() const
 
 	std::vector<unsigned int, pp_allocator<unsigned int>> temp(_digits);
 
-	constexpr size_t half_bits = sizeof(unsigned int) * 4;
-	constexpr unsigned int half_mask = __detail::generate_half_mask();
-	constexpr uint64_t full_mask = (static_cast<uint64_t>(half_mask) << half_bits) | half_mask;
-	constexpr uint64_t base = full_mask + 1;
+	ull base = static_cast<ull>(1) << (sizeof(unsigned int) * 8);
 
 	std::string result;
 
@@ -546,31 +525,13 @@ bool big_int::operator==(const big_int &other) const noexcept
 big_int::big_int(const std::vector<unsigned int, pp_allocator<unsigned int>> &digits, bool sign)
 	: _sign(sign), _digits(digits)
 {
-	while (!_digits.empty() && _digits.back() == 0)
-	{
-		_digits.pop_back();
-	}
-
-	if (_digits.empty())
-	{
-		_sign = true;
-		_digits.push_back(0);
-	}
+	normalize();
 }
 
 big_int::big_int(std::vector<unsigned int, pp_allocator<unsigned int>> &&digits, bool sign) noexcept
 	: _sign(sign), _digits(std::move(digits))
 {
-	while (!_digits.empty() && _digits.back() == 0)
-	{
-		_digits.pop_back();
-	}
-
-	if (_digits.empty())
-	{
-		_sign = true;
-		_digits.push_back(0);
-	}
+	normalize();
 }
 
 big_int::big_int(const std::string &num, unsigned int radix, pp_allocator<unsigned int> alloc)
@@ -609,23 +570,9 @@ big_int::big_int(const std::string &num, unsigned int radix, pp_allocator<unsign
 		value += big_int(digit, alloc);
 	}
 
-	_digits = std::move(value._digits);
+	_digits = value._digits;
 	_sign = (_digits.size() == 1 && _digits[0] == 0) ? true : original_sign;
 
-	if (_digits.size() == 1 && _digits[0] == 0)
-	{
-		_sign = true;
-	}
-
-	while (!_digits.empty() && _digits.back() == 0)
-	{
-		_digits.pop_back();
-	}
-	if (_digits.empty())
-	{
-		_digits.push_back(0);
-		_sign = true;
-	}
 	normalize();
 }
 
@@ -689,51 +636,41 @@ big_int big_int::karatsuba_multiply(const big_int &other) const
 {
 	if (_digits.size() <= 1 || other._digits.size() <= 1)
 	{
-		uint64_t product = static_cast<uint64_t>(_digits[0]) * other._digits[0];
-        std::vector<unsigned int> digits;
-
-        if (product > std::numeric_limits<unsigned int>::max()) {
-            digits.push_back(static_cast<unsigned int>(product));
-            digits.push_back(static_cast<unsigned int>(product >> (sizeof(unsigned int) * 8)));
-        } else {
-            digits.push_back(static_cast<unsigned int>(product));
-        }
-
-        return big_int(digits, _sign == other._sign);
+        return *this * other;
 	}
 
 	size_t m = std::max(_digits.size(), other._digits.size());
 	size_t m2 = m / 2;
 
-	big_int high1, low1, high2, low2;
+	big_int r1, l1, r2, l2;
 
 	if (_digits.size() > m2)
 	{
 		auto mid = _digits.begin() + m2;
-		low1 = big_int(std::vector<unsigned int>(_digits.begin(), mid), true);
-		high1 = big_int(std::vector<unsigned int>(mid, _digits.end()), true);
+		l1 = big_int(std::vector<unsigned int>(_digits.begin(), mid), true);
+		r1 = big_int(std::vector<unsigned int>(mid, _digits.end()), true);
 	}
 	else
 	{
-		low1 = *this;
-		high1 = big_int(0);
+		l1 = *this;
+		r1 = big_int(0);
 	}
 
 	if (other._digits.size() > m2)
 	{
 		auto mid = other._digits.begin() + m2;
-		low2 = big_int(std::vector<unsigned int>(other._digits.begin(), mid), true);
-		high2 = big_int(std::vector<unsigned int>(mid, other._digits.end()), true);
+		l2 = big_int(std::vector<unsigned int>(other._digits.begin(), mid), true);
+		r2 = big_int(std::vector<unsigned int>(mid, other._digits.end()), true);
 	}
 	else
 	{
-		low2 = other;
-		high2 = big_int(0);
+		l2 = other;
+		r2 = big_int(0);
 	}
 
-	big_int z0 = low1.karatsuba_multiply(low2);
-	big_int z1 = (low1 + high1).karatsuba_multiply(low2 + high2);
-	big_int z2 = high1.karatsuba_multiply(high2);
+	big_int z0 = l1.karatsuba_multiply(l2);
+	big_int z1 = (l1 + r1).karatsuba_multiply(l2 + r2);
+	big_int z2 = r1.karatsuba_multiply(r2);
 
 	big_int middle = z1 - z2 - z0;
 

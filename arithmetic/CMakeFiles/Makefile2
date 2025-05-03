@@ -351,11 +351,11 @@ fraction/clean: fraction/tests/clean
 # Directory level rules for directory fraction/tests
 
 # Recursive "all" directory target.
-fraction/tests/all:
+fraction/tests/all: fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/all
 .PHONY : fraction/tests/all
 
 # Recursive "codegen" directory target.
-fraction/tests/codegen:
+fraction/tests/codegen: fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/codegen
 .PHONY : fraction/tests/codegen
 
 # Recursive "preinstall" directory target.
@@ -363,7 +363,7 @@ fraction/tests/preinstall:
 .PHONY : fraction/tests/preinstall
 
 # Recursive "clean" directory target.
-fraction/tests/clean:
+fraction/tests/clean: fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/clean
 .PHONY : fraction/tests/clean
 
 #=============================================================================
@@ -686,6 +686,39 @@ fraction/CMakeFiles/mp_os_arthmtc_frctn.dir/codegen:
 fraction/CMakeFiles/mp_os_arthmtc_frctn.dir/clean:
 	$(MAKE) $(MAKESILENT) -f fraction/CMakeFiles/mp_os_arthmtc_frctn.dir/build.make fraction/CMakeFiles/mp_os_arthmtc_frctn.dir/clean
 .PHONY : fraction/CMakeFiles/mp_os_arthmtc_frctn.dir/clean
+
+#=============================================================================
+# Target rules for target fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir
+
+# All Build rule for target.
+fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/all: big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr.dir/all
+fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/all: fraction/CMakeFiles/mp_os_arthmtc_frctn.dir/all
+	$(MAKE) $(MAKESILENT) -f fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/build.make fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/build.make fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/setrakovfs/code/fundamental_algorithms/arithmetic/CMakeFiles --progress-num=21,22 "Built target mp_os_arthmtc_frctn_tests"
+.PHONY : fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/all
+
+# Build rule for subdir invocation for target.
+fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/setrakovfs/code/fundamental_algorithms/arithmetic/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/setrakovfs/code/fundamental_algorithms/arithmetic/CMakeFiles 0
+.PHONY : fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/rule
+
+# Convenience name for target.
+mp_os_arthmtc_frctn_tests: fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/rule
+.PHONY : mp_os_arthmtc_frctn_tests
+
+# codegen rule for target.
+fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/build.make fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/setrakovfs/code/fundamental_algorithms/arithmetic/CMakeFiles --progress-num=21,22 "Finished codegen for target mp_os_arthmtc_frctn_tests"
+.PHONY : fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/codegen
+
+# clean rule for target.
+fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/build.make fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/clean
+.PHONY : fraction/tests/CMakeFiles/mp_os_arthmtc_frctn_tests.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
